@@ -2,7 +2,7 @@
 <h1>Index</h1>
 
 <p>
-    <button class="btn btn-success" @click.prevent="modalcrearu()"> Nuevo Usuario </button>
+    <button class="btn btn-success" @click.prevent="modalcrearu()" v-if="permisos" > Nuevo Usuario </button>
 
 </p>
 <form asp-controller="Prestamoes" asp-action="Index" class="form-inline">
@@ -72,7 +72,7 @@
             <td>
                 {{user.IdRol}}
             </td>
-            <td>
+            <td v-if="permisos" >
                 <a class="btn btn-warning" @click.prevent="editaru(user) ">Editar</a> |
                 <a class="btn btn-info" @click.prevent="detalleu(user.id)" >Detalle</a> |
                 <a class="btn btn-danger" @click.prevent="borraru(user)" >Eliminar</a>
@@ -239,10 +239,13 @@ import axios from 'axios'
         mounted() {
             this.getUsers()
             this.getRol()
+            this.getadmin()
         },
         data(){
             
             return {
+
+                permisos:false,
                 cedula:'',
                 user:[],
                 accionHeader:'crear',
@@ -374,9 +377,26 @@ import axios from 'axios'
                     
                    
                 })
+            },
+
+            getadmin(){
+                axios.post(`/getestadoau/permiso`).then(res =>{console.log(this.permisos = res.data.authenticated)})
+                
             }
 
 
-        }
+        },
+
+        /*
+        computed: {
+        isAdmin() {
+      // Verifica si el usuario autenticado es administrador
+          return this.permisos.some(permisos => permisos.IdRol === '1');
+        },
+        isGestor() {
+      // Verifica si el usuario autenticado es gestor
+          return this.permisos.some(permisos => permisos.IdRol === '2' );
+     }
+        }*/
     }
 </script>

@@ -20,7 +20,13 @@ class GestionPrestamosController extends Controller
     public $message = '';
 
     public function gestionprestamo(){
-        return view('GestionPrestamo');
+
+        if(Auth::User()->IdRol == 1){
+            return view('GestionPrestamo');
+          }else{
+            return redirect('/');
+          }
+       
     }
 
     public function crearprestamos(Request $r){

@@ -25,6 +25,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'authenticate');
     Route::post('/register', 'registerUser');
     Route::post('/logouth', 'logouth');
+    
 });
 
 Route::group(['middleware' => ['jwt.verify']], function() {
@@ -32,3 +33,6 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('user','App\Http\Controllers\AuthController@getAuthenticatedUser');
 
 });
+
+
+

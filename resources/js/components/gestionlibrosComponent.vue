@@ -3,7 +3,7 @@
 <h1>Index </h1>
 
 <p>
-    <button class="btn btn-success" @click.prevent="modalcrear()"> Nuevo Libro </button>
+    <button class="btn btn-success" @click.prevent="modalcrear()"  v-if="permisos" > Nuevo Libro </button>
    
 </p>
 <form  class="form-inline">
@@ -69,7 +69,7 @@
             <td>
                 {{ libro.ejemplares}}
             </td>
-            <td>
+            <td v-if="permisos">
                 <a class="btn btn-warning" @click.prevent="abrireditor(libro)" >Editar</a> |
                 <a  class="btn btn-info" @click.prevent="abrirdetalle(libro.idLibro)" >Detalle</a> |
                 <a class="btn btn-danger" @click.prevent="borrar(libro)" >Borrar</a>
@@ -235,11 +235,14 @@ import swal from 'sweetalert';
     export default {
         mounted() {
             this.getlibros()
-            this.getlibro()
+            //this.getlibro()
+            this.getadmin()
+            
         },
         data(){
 
             return {
+                permisos:false,
             libro:[],
               libros:[],
               crearLibro:{ titulo:'', nombreportada:'', autor:'', generoliterario:'', editorial:'', ubicacion:'', ejemplares:0 }, 
@@ -328,12 +331,12 @@ import swal from 'sweetalert';
                         swal("¡¡Correcto!!", res.data.message, "success")
                     }
                     this.getlibros()
-                    this.getlibro()
+                    //this.getlibro()
                 });
             },
 
             buscar(){
-                axios.post('/buscarlibro', {
+                axios.post('/buscarlibro/buscarli', {
                     titulo:this.titulo
                 }).then(res => {
                     this.libros = res.data.model
@@ -348,7 +351,14 @@ import swal from 'sweetalert';
                         swal("¡¡Correcto!!", res.data.message, "success")
                     }
                 })
+            },
+
+            getadmin(){
+                axios.post(`/getestadoau/permiso`).then(res =>{console.log(this.permisos = res.data.authenticated)})
+                
             }
+
+            
         }
     }
 </script>

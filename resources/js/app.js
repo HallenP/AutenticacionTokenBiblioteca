@@ -17,6 +17,7 @@ import ExampleComponent from './components/ExampleComponent.vue';
 import gestionlibrosComponent from './components/gestionlibrosComponent.vue';
 import gestionusuariosComponent from './components/gestionusuariosComponent.vue';
 import gestionprestamoComponent from './components/gestionprestamoComponent.vue';
+import gestiontokenComponent from './components/gestiontokenComponent.vue';
 
 const app = createApp({});
 
@@ -25,6 +26,7 @@ app.component('example-component', ExampleComponent);
 app.component('gestionlibros-component', gestionlibrosComponent);
 app.component('gestionusuarios-component', gestionusuariosComponent);
 app.component('gestionprestamo-component', gestionprestamoComponent);
+app.component('gestiontoken-component', gestiontokenComponent);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

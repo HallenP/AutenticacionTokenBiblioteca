@@ -20,7 +20,14 @@ class GestionLibrosController extends Controller
     public $status = false;
     public $message = '';
     public function gestionlibros(){
-        return view('GestionLibros');
+        
+
+        if(Auth::User()->IdRol == 1){
+            return view('GestionLibros');
+          }else{
+            return redirect('/');
+          }
+        
     }
 
     public function crearlibros(Request $r){
@@ -86,6 +93,9 @@ class GestionLibrosController extends Controller
     }
 
     public function buscartitulo(Request $r){
+
+
+        
         $validate = Validator::make($r->all(), [
             'titulo' => [
                 function($atribute, $value, $fail){
@@ -131,5 +141,6 @@ class GestionLibrosController extends Controller
                 'validate' => [],
                 'model' => $libros    
             ];
+        
     }
 }

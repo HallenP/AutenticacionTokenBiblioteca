@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Autenticacion\AuthController;
 use App\Http\Controllers\GestionLibros\GestionLibrosController;
 use App\Http\Controllers\GestionPrestamos\GestionPrestamosController;
+use App\Http\Controllers\GestionToken\GestionTokenController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,7 +29,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 /* Definir una ruta para el navegador, como rutas personalizadas */
 
 Route::controller(AuthController::class)->group(function(){
-    //usamos middelware para que si alguien esta logeado, no vuelva a inicar sesion
+    //rutas para los controladores del AuthController
     Route::get('/login/loginview', 'loginview')->middleware('guest')->name('login');
     Route::get('/', 'inicio');
     Route::post('/login', 'login');
@@ -39,6 +40,9 @@ Route::controller(AuthController::class)->group(function(){
     Route::post('/borraru/{borrar}','borraru');
     Route::post('/buscaru','buscaru');
     Route::post('/{token}','login');
+    Route::post('/getestadoau/permiso','getestadoau');
+    Route::get('/getadmin','getadmin');
+
 });
 
 Route::middleware(['auth'])->controller(AuthController::class)->group(function(){
@@ -60,7 +64,8 @@ Route::middleware(['auth'])->controller(GestionLibrosController::class)->group(f
     Route::get('/getlibros','getlibros');
     Route::get('/getlibrodetalle/{detalle}','getdetalle');
     Route::post('/borrarlibro/{borrar}','borrarlibro');
-    Route::post('/buscarlibro','buscartitulo');
+    Route::post('/buscarlibro/buscarli','buscartitulo');
+
 });
 
 Route::middleware(['auth'])->controller(GestionPrestamosController::class)->group(function(){
@@ -73,7 +78,21 @@ Route::middleware(['auth'])->controller(GestionPrestamosController::class)->grou
     Route::get('/getprestamodetalle/{detalle}','getprestamodetalle');
     Route::post('/borrarprestamo/{borrar}','borrarprestamo');
     
-    Route::post('/buscarprestamo','buscarprestamo');
+    Route::post('/buscarprestamo/buscarpre','buscarprestamo');
     
    
+});
+
+Route::middleware(['auth'])->controller(GestionTokenController::class)->group(function(){
+    Route::get('/gestiontoken', 'gestiontoken');
+   // Route::get('/token-login/{token}', 'logintoken');
+    //Route::post('/generatetoken/generarto', 'generatetoken');
+    Route::get('/mostrartoken/mostrarto', 'mostrartokens');
+});
+
+Route::controller(GestionTokenController::class)->group(function(){
+    Route::get('/gestiontoken', 'gestiontoken');
+    Route::get('/token-login/{token}', 'logintoken');
+    Route::post('/generatetoken/generarto', 'generatetoken');
+    Route::get('/mostrartoken/mostrarto', 'mostrartokens');
 });

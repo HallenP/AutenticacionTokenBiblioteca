@@ -22,7 +22,7 @@ class AuthController extends Controller
 {
   public $status = false;
     public $message = '';
-    // creamos el controllador para inicio sesion
+    // creamos el controllador para inicio sesion 
 
     public function login(Request $r){
        
@@ -99,8 +99,8 @@ class AuthController extends Controller
 
         $token = JWTAuth::fromUser($users);
 
-        //return redirect('/login/loginview')->withSuccess('Registrado correctamente');
-        return response()->json(compact('user','token'),201);
+        return redirect('/login/loginview')->withSuccess('Registrado correctamente');
+       // return response()->json(compact('user','token'),201);
       }
 
 
@@ -118,7 +118,12 @@ class AuthController extends Controller
       }
 
       public function gestionusuarios(){
-        return view('GestionUsuario');
+        if(Auth::User()->IdRol == 1){
+          return view('GestionUsuario');
+        }else{
+          return redirect('/');
+        }
+        
     }
 
     public function getUsers(){
@@ -131,10 +136,11 @@ class AuthController extends Controller
       return respuesta(true, '', [], $roles);
   }
 
+  // funcion o metodo para crear usuario desde una ventana emergente( modal)
     public function  crearusuario(Request $r){
-    
+    // declaramos la variable $id para que se guarden y se registren con el id
       $id = $r->idUsuario ? $r->idUsuario : 0;
-
+      //ingresamos las
       $validateRules = [
           'name' => ['required', 'string', 'max:50'],
           'lastname' => ['required', 'string', 'max:50'],
@@ -361,5 +367,21 @@ class AuthController extends Controller
   $token = JWTAuth::fromUser($user);
 
   return response()->json(compact('user', 'token'), 201);
+  }
+
+  ///////////////////////////////////////////////////////////---------------------
+
+  public function getestadoau(){
+    if(Auth::check() && Auth::User()->IdRol == 1){
+      return response()->json(['authenticated' => true]);
+    }else{
+      return response()->json(['authenticated' => false]);
+    }
+
+  }
+
+  public function getadmin(){
+    $users = User::where('IdRol', '1' )->select('users.*')->get();
+    return respuesta(TRUE, '', [], $users); 
   }
 }

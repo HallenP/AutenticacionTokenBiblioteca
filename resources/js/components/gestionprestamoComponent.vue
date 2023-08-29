@@ -3,7 +3,7 @@
 <h1>Index</h1>
 
 <p>
-    <button class="btn btn-success" @click.prevent="modalcrearp()"> Nuevo Prestamo </button>
+    <button class="btn btn-success" @click.prevent="modalcrearp()" v-if="permisos" > Nuevo Prestamo </button>
     
 </p>
 <form asp-controller="Prestamoes" asp-action="Index" class="form-inline">
@@ -59,7 +59,7 @@
             <td>
                 {{prestamo.cedula}}
             </td>
-            <td>
+            <td v-if="permisos">
                 <a class="btn btn-warning"  @click.prevent="editorprestamo(prestamo)">Editar</a> |
                 <a class="btn btn-info" @click.prevent="detallep(prestamo.IdPrestamo)" >Detalle</a> |
                 <a class="btn btn-danger" @click.prevent="borrarp(prestamo)">Eliminar</a>
@@ -233,10 +233,13 @@ import Datepicker from 'vuejs3-datepicker';
             //this.getPrestamo()
             this.getLibros()
             this.getUsers()
+            this.getadmin()
         },
         data(){
 
             return {
+                permisos:false,
+            authenticated:false,
             fechadedevolucion:ref( new Date()),
             titulo:'',
             usuarios:[],
@@ -338,7 +341,7 @@ import Datepicker from 'vuejs3-datepicker';
             },
 
             buscarp(){
-                axios.post('/buscarprestamo', {
+                axios.post('/buscarprestamo/buscarpre', {
                     titulo:this.titulo
                 }).then(res => {
                     this.prestamos = res.data.model
@@ -360,6 +363,11 @@ import Datepicker from 'vuejs3-datepicker';
                 axios.get('/getUsers').then(res=>{
                     this.usuarios = res.data.model 
                 })
+            },
+
+            getadmin(){
+                axios.post(`/getestadoau/permiso`).then(res =>{console.log(this.permisos = res.data.authenticated)})
+                
             }
         },
 
