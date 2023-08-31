@@ -18,7 +18,7 @@
                               <div class="card-body">
                                   <ul class="nav nav-tabs border-tab justify-content-center" id="top-tab" role="tablist">
                                       <li class="nav-item"><a class="nav-link active" id="top-home-tab" data-bs-toggle="tab" href="#top-home" role="tab" aria-controls="top-home" aria-selected="true"><i class="icofont icofont-ui-edit"></i>LOGIN</a></li>
-                                      <li class="nav-item"><a class="nav-link" id="profile-top-tab" data-bs-toggle="tab" href="#top-profile" role="tab" aria-controls="top-profile" aria-selected="false"><i class="icofont icofont-ui-add"></i>LOGIN CON TOKEN</a></li>
+                                      
                                       
                                   </ul>
                                   <div class="tab-content" id="top-tabContent">

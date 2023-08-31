@@ -27,6 +27,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 */
 
 /* Definir una ruta para el navegador, como rutas personalizadas */
+// Aqui estan definidas todas las rutas en la que se conectan los controladores son las vistas respectivas
 
 Route::controller(AuthController::class)->group(function(){
     //rutas para los controladores del AuthController
